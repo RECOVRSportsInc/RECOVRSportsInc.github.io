@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-g">
+    <meta charset="utf-8">
     <title>AR Drink Viewer</title>
     <meta name="description" content="View our drink in AR!">
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
@@ -17,8 +17,8 @@
         gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/v1/decoders/;">
 
         <a-assets>
-            <a-asset-item id="drinkModel" src="path/to/your_drink.glb"></a-asset-item>
-            </a-assets>
+            <a-asset-item id="drinkModel" src="drink_model.glb"></a-asset-item>
+        </a-assets>
 
         <a-camera position="0 1.6 0"></a-camera>
         <a-entity light="type: ambient; intensity: 0.7;"></a-entity>
@@ -35,7 +35,7 @@
             visible="false"> </a-entity>
 
         <div id="ar-ui" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 10;">
-            </div>
+        </div>
 
     </a-scene>
 
