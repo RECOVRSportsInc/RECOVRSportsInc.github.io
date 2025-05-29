@@ -1,63 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>AR Drink Viewer</title>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        background: #000;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <title>RECOVR AR Menu</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #111;
+      color: #fff;
+    }
 
-      model-viewer {
-        width: 100vw;
-        height: 100vh;
-        --ar-button-bottom-padding: 80px; /* Move AR button above tab bar */
-      }
+    h1 {
+      text-align: center;
+      padding: 1rem;
+      font-size: 1.8rem;
+    }
 
-      #rotate-msg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.9);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        font-size: 1.2rem;
-        z-index: 999;
-        padding: 20px;
-        box-sizing: border-box;
-      }
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1rem;
+    }
 
-      @media (orientation: landscape) {
-        #rotate-msg {
-          display: none;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Portrait Mode Warning -->
-    <div id="rotate-msg">
-      🔄 Please rotate your phone sideways and tap the square button in the bottom right corner to view in AR.
-    </div>
+    .menu-item {
+      background: #222;
+      padding: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      width: 140px;
+      transition: background 0.2s;
+    }
 
+    .menu-item:hover {
+      background: #333;
+    }
+
+    model-viewer {
+      display: block;
+      width: 100vw;
+      height: 70vh;
+      --ar-button-bottom-padding: 80px;
+      background-color: #000;
+    }
+
+    .viewer-container {
+      padding-top: 1rem;
+    }
+
+    .item-name {
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📱 RECOVR AR Menu</h1>
+
+  <div class="menu">
+    <div class="menu-item" onclick="loadItem('drink_model')">🥤 Drink</div>
+    <div class="menu-item" onclick="loadItem('cupcakes')">🧁 Cupcakes</div>
+    <div class="menu-item" onclick="loadItem('pink_donut')">🍩 Pink Donut</div>
+    <div class="menu-item" onclick="loadItem('cc0_milk_carton')">🥛 Milk Carton</div>
+    <div class="menu-item" onclick="loadItem('coffee_menu')">☕ Coffee Menu</div>
+  </div>
+
+  <div class="viewer-container">
     <model-viewer
+      id="viewer"
       src="drink_model.glb"
       ios-src="drink_model.usdz"
       ar
       ar-modes="scene-viewer quick-look webxr"
       camera-controls
       auto-rotate
-      alt="A 3D model of a drink"
-    >
-    </model-viewer>
-  </body>
+      alt="AR Item Viewer"
+    ></model-viewer>
+  </div>
+
+  <script>
+    function loadItem(name) {
+      const viewer = document.getElementById('viewer');
+      viewer.setAttribute('src', `${name}.glb`);
+      viewer.setAttribute('ios-src', `${name}.usdz`);
+    }
+  </script>
+</body>
 </html>
