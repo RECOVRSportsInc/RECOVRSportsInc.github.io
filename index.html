@@ -2,79 +2,62 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Drink AR Viewer</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AR Drink Viewer</title>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
       body {
         margin: 0;
         padding: 0;
-        font-family: sans-serif;
-        background-color: #000;
+        background: #000;
       }
 
       model-viewer {
         width: 100vw;
         height: 100vh;
-        --ar-button-display: none; /* Hide built-in AR button */
+        --ar-button-bottom-padding: 80px;
       }
 
-      .ar-button {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        padding: 10px 14px;
-        background: rgba(255, 255, 255, 0.9);
-        border: none;
-        border-radius: 8px;
-        font-weight: bold;
-        color: #000;
-        cursor: pointer;
-        z-index: 10;
-      }
-
-      .ar-hint {
-        position: absolute;
-        bottom: 12px;
-        left: 12px;
+      #rotate-msg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.9);
         color: white;
-        background: rgba(0, 0, 0, 0.5);
-        padding: 6px 10px;
-        border-radius: 6px;
-        font-size: 13px;
-        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 1.2rem;
+        z-index: 999;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      @media (orientation: landscape) {
+        #rotate-msg {
+          display: none;
+        }
       }
     </style>
   </head>
   <body>
-    <!-- Optional help message -->
-    <div class="ar-hint">
-      ✅ Tap AR to place drink in your space.<br/>
-      📱 Use Safari (iOS) or Chrome (Android)
+    <!-- Portrait Mode Warning -->
+    <div id="rotate-msg">
+      🔄 Please rotate your phone sideways for the best AR experience.
     </div>
 
-    <!-- Custom AR Button -->
-    <button class="ar-button" id="custom-ar-button">View in AR</button>
-
-    <!-- The Model -->
     <model-viewer
-      id="drinkViewer"
       src="drink_model.glb"
       ios-src="drink_model.usdz"
       ar
       ar-modes="scene-viewer quick-look webxr"
       camera-controls
       auto-rotate
-      alt="Drink model">
+      alt="A 3D model of a drink"
+    >
     </model-viewer>
-
-    <script>
-      const viewer = document.getElementById('drinkViewer');
-      const arButton = document.getElementById('custom-ar-button');
-
-      arButton.addEventListener('click', () => {
-        viewer.activateAR();
-      });
-    </script>
   </body>
 </html>
