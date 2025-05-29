@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AR Cupcakes</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        margin: 0;
+        background: #000;
+      }
+      model-viewer {
+        width: 100vw;
+        height: 100vh;
+        --ar-button-bottom-padding: 80px;
+      }
+      #rotate-msg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 1.2rem;
+        z-index: 999;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      @media (orientation: landscape) {
+        #rotate-msg {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Rotate phone message -->
+    <div id="rotate-msg">
+      🔄 Please rotate your phone sideways and tap the square <strong>AR</strong> button in the bottom right corner to view the cupcakes in AR.
+    </div>
+
+    <model-viewer
+      src="cupcakes.glb"
+      ios-src="cupcakes.usdz"
+      ar
+      ar-modes="scene-viewer quick-look webxr"
+      camera-controls
+      auto-rotate
+      alt="Cupcakes in AR"
+    >
+    </model-viewer>
+  </body>
+</html>
