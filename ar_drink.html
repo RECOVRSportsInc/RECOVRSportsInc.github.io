@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-g">
+    <title>AR Drink Viewer</title>
+    <meta name="description" content="View our drink in AR!">
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
+</head>
+<body>
+    <a-scene
+        webxr="requiredFeatures: hit-test,local-floor;
+               optionalFeatures: dom-overlay;
+               overlayElement: #ar-ui;"
+        ar-hit-test="target:#my-drink;type:footprint;footprintDepth:0.2"
+        shadow="type: pcfsoft"
+        gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/v1/decoders/;">
+
+        <a-assets>
+            <a-asset-item id="drinkModel" src="path/to/your_drink.glb"></a-asset-item>
+            </a-assets>
+
+        <a-camera position="0 1.6 0"></a-camera>
+        <a-entity light="type: ambient; intensity: 0.7;"></a-entity>
+        <a-entity light="type: directional; intensity: 0.7; position: 1 1 1"></a-entity>
+
+        <a-entity id="my-drink"
+                  gltf-model="#drinkModel"
+                  position="0 -100 0" scale="0.001 0.001 0.001" visible="false"
+                  shadow="receive: false; cast: true">
+        </a-entity>
+
+        <a-entity id="reticle"
+            ar-hit-test-reticle="target:#my-drink"
+            visible="false"> </a-entity>
+
+        <div id="ar-ui" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 10;">
+            </div>
+
+    </a-scene>
+
+    <script>
+        // JavaScript to handle placing the object
+        document.addEventListener('DOMContentLoaded', () => {
+            const sceneEl = document.querySelector('a-scene');
+            const modelEl = document.querySelector('#my-drink');
+            const reticleEl = document.querySelector('#reticle');
+
+            // When AR mode starts
+            sceneEl.addEventListener('enter-vr', () => {
+                if (sceneEl.is('ar-mode')) {
+                    // Show reticle when in AR and looking for a surface
+                    reticleEl.setAttribute('visible', 'true');
+
+                    // Listen for ar-hit-test-select (user taps screen to place)
+                    sceneEl.addEventListener('ar-hit-test-select', (event) => {
+                        // Position the model at the hit-test result
+                        const position = event.detail.position;
+                        modelEl.setAttribute('position', position);
+                        modelEl.setAttribute('visible', 'true');
+                        // Adjust scale as needed for your model
+                        modelEl.setAttribute('scale', '0.3 0.3 0.3'); // Example scale
+                        // Optionally hide the reticle after placement
+                        reticleEl.setAttribute('visible', 'false');
+                    });
+                }
+            });
+
+            // Handle exiting AR mode (optional)
+            sceneEl.addEventListener('exit-vr', () => {
+                modelEl.setAttribute('visible', 'false');
+                modelEl.setAttribute('position', '0 -100 0'); // Re-hide it
+                reticleEl.setAttribute('visible', 'false');
+            });
+        });
+    </script>
+</body>
+</html>
